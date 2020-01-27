@@ -189,11 +189,18 @@ NtlmInitializeSignature(
     }
     else
     {
+#if defined(__GNUC__) && (__GNUC___ > 9 || (__GNUC__ == 9 && __GNUC_MINOR__ >= 1))
+#pragma GCC diagnostic push
+#pragma GCC diagnostic warning "-Waddress-of-packed-member"
+#endif
         dwError = NtlmCrc32(
                 pMessage,
                 &pSignature->v1.encrypted.dwCrc32);
         BAIL_ON_LSA_ERROR(dwError);
     }
+#if defined(__GNUC__) && (__GNUC___ > 9 || (__GNUC__ == 9 && __GNUC_MINOR__ >= 1))
+#pragma GCC diagnostic pop
+#endif
 
 cleanup:
     return dwError;

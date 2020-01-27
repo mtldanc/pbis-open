@@ -968,7 +968,14 @@ DNSCreateAAAARecord(
 
     if(inet_pton(AF_INET6, (const char*)pszIPV6, &(Sock6Addr.sin6_addr)))
     {
+#if defined(__GNUC__) && (__GNUC___ > 9 || (__GNUC__ == 9 && __GNUC_MINOR__ >= 1))
+#pragma GCC diagnostic push
+#pragma GCC diagnostic warning "-Warray-bounds"
+#endif
         memcpy(pRData, &(Sock6Addr.sin6_addr), INET6_ADDRSTRLEN);
+#if defined(__GNUC__) && (__GNUC___ > 9 || (__GNUC__ == 9 && __GNUC_MINOR__ >= 1))
+#pragma GCC diagnostic pop
+#endif
         pDNSRRRecord->pRData = pRData;
         pRData = NULL;
         *ppDNSRecord = pDNSRRRecord;

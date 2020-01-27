@@ -365,8 +365,15 @@ PRIVATE rpc_call_rep_t *rpc__cn_call_start
     {
         int i;
         for( i=1; i<RPC_C_MAX_IOVEC_LEN; i++ ) {
+#if defined(__GNUC__) && (__GNUC___ > 9 || (__GNUC__ == 9 && __GNUC_MINOR__ >= 1))
+#pragma GCC diagnostic push
+#pragma GCC diagnostic warning "-Warray-bounds"
+#endif
             call_rep->buffered_output.iov.elt[i].buff_addr = NULL;
             call_rep->buffered_output.iov.elt[i].buff_dealloc = NULL;
+#if defined(__GNUC__) && (__GNUC___ > 9 || (__GNUC__ == 9 && __GNUC_MINOR__ >= 1))
+#pragma GCC diagnostic pop
+#endif
         }
     }
 

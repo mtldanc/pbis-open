@@ -1603,11 +1603,18 @@ INTERNAL unsigned32     abort_send_action_rtn
             call_rep->prot_tlr->data_size - 
             RPC_CN_CREP_SIZEOF_TLR_PAD (call_rep);
         RPC_CN_CREP_IOVLEN (call_rep) = 2;
+#if defined(__GNUC__) && (__GNUC___ > 9 || (__GNUC__ == 9 && __GNUC_MINOR__ >= 1))
+#pragma GCC diagnostic push
+#pragma GCC diagnostic warning "-Warray-bounds"
+#endif
         RPC_CN_CREP_IOV (call_rep)[1].data_addr = (byte_p_t) call_rep->prot_tlr->data_p;
         RPC_CN_CREP_IOV (call_rep)[1].data_len =
             call_rep->prot_tlr->data_size - 
             RPC_CN_CREP_SIZEOF_TLR_PAD (call_rep);
         RPC_CN_CREP_IOV (call_rep)[1].buff_dealloc = NULL;
+#if defined(__GNUC__) && (__GNUC___ > 9 || (__GNUC__ == 9 && __GNUC_MINOR__ >= 1))
+#pragma GCC diagnostic pop
+#endif
     }
 
     /* 

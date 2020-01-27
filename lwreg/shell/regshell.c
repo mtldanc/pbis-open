@@ -2591,7 +2591,14 @@ printf("\n\n got line '%.*s'\n\n", num, buf);
 
                     if (rv == HISTORY_ERROR)
                     {
+#if defined(__GNUC__) && (__GNUC___ > 9 || (__GNUC__ == 9 && __GNUC_MINOR__ >= 1))
+#pragma GCC diagnostic push
+#pragma GCC diagnostic warning "-Wformat-overflow"
+#endif
                         printf("regshell: %s: event not found\n", hist_str);
+#if defined(__GNUC__) && (__GNUC___ > 9 || (__GNUC__ == 9 && __GNUC_MINOR__ >= 1))
+#pragma GCC diagnostic pop
+#endif
                     }
                 }
             }

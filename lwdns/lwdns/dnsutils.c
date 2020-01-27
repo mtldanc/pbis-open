@@ -1023,7 +1023,14 @@ DNSInet6GetPtrZoneAddress(
 
     pSzOutputAddr = (PSTR) malloc(sizeof(CHAR) * CANONICAL_INET6_ADDRSTRLEN);
     strcpy(pSzOutputAddr,szOutput+(dwIpaddressToChop * 8));
+#if defined(__GNUC__) && (__GNUC___ > 9 || (__GNUC__ == 9 && __GNUC_MINOR__ >= 1))
+#pragma GCC diagnostic push
+#pragma GCC diagnostic warning "-Wstringop-truncation"
+#endif
     strncat(pSzOutputAddr,"ip6.arpa", (sizeof(pSzOutputAddr) - strlen(pSzOutputAddr) - 1));
+#if defined(__GNUC__) && (__GNUC___ > 9 || (__GNUC__ == 9 && __GNUC_MINOR__ >= 1))
+#pragma GCC diagnostic pop
+#endif
 
     *ppSzInet6OutputAddr = pSzOutputAddr;
     return 0;

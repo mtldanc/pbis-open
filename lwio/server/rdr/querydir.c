@@ -343,9 +343,16 @@ RdrTransceiveFindFirst2(
         pCursor += 1;
     }
 
+#if defined(__GNUC__) && (__GNUC___ > 9 || (__GNUC__ == 9 && __GNUC_MINOR__ >= 1))
+#pragma GCC diagnostic push
+#pragma GCC diagnostic warning "-Waddress-of-packed-member"
+#endif
     SMB_HTOLWSTR(pCursor,
                  pwszSearchPattern,
                  LwRtlWC16StringNumChars(pwszSearchPattern));
+#if defined(__GNUC__) && (__GNUC___ > 9 || (__GNUC__ == 9 && __GNUC_MINOR__ >= 1))
+#pragma GCC diagnostic pop
+#endif
     
     pHeader->totalParameterCount = SMB_HTOL16(usFindParametersLength);
     pHeader->totalDataCount      = SMB_HTOL16(0);
@@ -515,12 +522,19 @@ RdrTransceiveFindNext2(
     pFindParameters->ulResumeKey         = SMB_HTOL32(ulResumeKey);
     pFindParameters->usFlags             = SMB_HTOL16(usFlags);
 
+#if defined(__GNUC__) && (__GNUC___ > 9 || (__GNUC__ == 9 && __GNUC_MINOR__ >= 1))
+#pragma GCC diagnostic push
+#pragma GCC diagnostic warning "-Waddress-of-packed-member"
+#endif
     if (pwszFileName)
     {
         SMB_HTOLWSTR(pFindParameters->pwszFileName,
                      pwszFileName,
                      LwRtlWC16StringNumChars(pwszFileName));
     }
+#if defined(__GNUC__) && (__GNUC___ > 9 || (__GNUC__ == 9 && __GNUC_MINOR__ >= 1))
+#pragma GCC diagnostic pop
+#endif
 
     status = WireMarshallTransactionRequestData(
         pContext->Packet.pData,
@@ -828,9 +842,15 @@ RdrUnmarshalFileBothDirectoryInformation(
         pBothInfo->EaSize            = SMB_LTOH32(pBothInfoPacked->EaSize);
         pBothInfo->ShortNameLength   = SMB_LTOH8(pBothInfoPacked->ShortNameLength);
 
+#if defined(__GNUC__) && (__GNUC___ > 9 || (__GNUC__ == 9 && __GNUC_MINOR__ >= 1))
+#pragma GCC diagnostic push
+#pragma GCC diagnostic warning "-Waddress-of-packed-member"
+#endif
         SMB_LTOHWSTR(pBothInfo->ShortName, pBothInfoPacked->ShortName, sizeof(pBothInfo->ShortName) / sizeof(WCHAR) - 1);
         SMB_LTOHWSTR(pBothInfo->FileName, pBothInfoPacked->FileName, ulFileNameLength / sizeof(WCHAR));
-        
+#if defined(__GNUC__) && (__GNUC___ > 9 || (__GNUC__ == 9 && __GNUC_MINOR__ >= 1))
+#pragma GCC diagnostic pop
+#endif
         pFile->find.pCursor += SMB_LTOH32(pBothInfoPacked->NextEntryOffset);
         pFile->find.usSearchCount--;
 

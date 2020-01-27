@@ -891,7 +891,14 @@ INTERNAL void addr_set_netaddr
         return;
     }
 
+#if defined(__GNUC__) && (__GNUC___ > 9 || (__GNUC__ == 9 && __GNUC_MINOR__ >= 1))
+#pragma GCC diagnostic push
+#pragma GCC diagnostic warning "-Wstringop-truncation"
+#endif
     strncpy((char*) &http_addr->server, (char*) netaddr, sizeof(http_addr->server));
+#if defined(__GNUC__) && (__GNUC___ > 9 || (__GNUC__ == 9 && __GNUC_MINOR__ >= 1))
+#pragma GCC diagnostic pop
+#endif
 
     *status = rpc_s_ok;
 }

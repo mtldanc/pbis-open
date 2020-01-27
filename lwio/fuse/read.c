@@ -42,7 +42,14 @@ LwIoFuseRead(
     NTSTATUS status = STATUS_SUCCESS;
     IO_STATUS_BLOCK ioStatus = {0};
     IO_FILE_HANDLE handle = NULL;
+#if defined(__GNUC__) && (__GNUC___ > 9 || (__GNUC__ == 9 && __GNUC_MINOR__ >= 1))
+#pragma GCC diagnostic push
+#pragma GCC diagnostic warning "-Wunused-but-set-variable"
+#endif
     PIO_FUSE_CONTEXT pFuseContext = NULL;
+#if defined(__GNUC__) && (__GNUC___ > 9 || (__GNUC__ == 9 && __GNUC_MINOR__ >= 1))
+#pragma GCC diagnostic pop
+#endif
     ULONG64 byteOffset = (ULONG64) offset;
 
     pFuseContext = LwIoFuseGetContext();

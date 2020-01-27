@@ -766,10 +766,17 @@ RdrSmb2EncodeCreateRequest(
         status = Advance(ppCursor, pulRemaining, ulPathLength * sizeof(WCHAR));
         BAIL_ON_NT_STATUS(status);
 
+#if defined(__GNUC__) && (__GNUC___ > 9 || (__GNUC__ == 9 && __GNUC_MINOR__ >= 1))
+#pragma GCC diagnostic push
+#pragma GCC diagnostic warning "-Waddress-of-packed-member"
+#endif
         SMB_HTOLWSTR(
             pFilename,
             pwszPath,
             ulPathLength);
+#if defined(__GNUC__) && (__GNUC___ > 9 || (__GNUC__ == 9 && __GNUC_MINOR__ >= 1))
+#pragma GCC diagnostic pop
+#endif
         BAIL_ON_NT_STATUS(status);
     }
     else
@@ -782,6 +789,10 @@ RdrSmb2EncodeCreateRequest(
         BAIL_ON_NT_STATUS(status);
     }
 
+#if defined(__GNUC__) && (__GNUC___ > 9 || (__GNUC__ == 9 && __GNUC_MINOR__ >= 1))
+#pragma GCC diagnostic push
+#pragma GCC diagnostic warning "-Waddress-of-packed-member"
+#endif
     if (ppulCreateContextsOffset)
     {
         *ppulCreateContextsOffset = &pHeader->ulCreateContextOffset;
@@ -791,6 +802,9 @@ RdrSmb2EncodeCreateRequest(
     {
         *ppulCreateContextsLength = &pHeader->ulCreateContextLength;
     }
+#if defined(__GNUC__) && (__GNUC___ > 9 || (__GNUC__ == 9 && __GNUC_MINOR__ >= 1))
+#pragma GCC diagnostic pop
+#endif
 
 cleanup:
 
@@ -912,7 +926,14 @@ RdrSmb2EncodeQueryInfoRequest(
 
     if (ppulInputBufferLen)
     {
+#if defined(__GNUC__) && (__GNUC___ > 9 || (__GNUC__ == 9 && __GNUC_MINOR__ >= 1))
+#pragma GCC diagnostic push
+#pragma GCC diagnostic warning "-Waddress-of-packed-member"
+#endif
         *ppulInputBufferLen = &pHeader->ulInputBufferLen;
+#if defined(__GNUC__) && (__GNUC___ > 9 || (__GNUC__ == 9 && __GNUC_MINOR__ >= 1))
+#pragma GCC diagnostic pop
+#endif
     }
 
 cleanup:
@@ -1195,7 +1216,14 @@ RdrSmb2EncodeWriteRequest(
 
     if (ppulDataLength)
     {
+#if defined(__GNUC__) && (__GNUC___ > 9 || (__GNUC__ == 9 && __GNUC_MINOR__ >= 1))
+#pragma GCC diagnostic push
+#pragma GCC diagnostic warning "-Waddress-of-packed-member"
+#endif
         *ppulDataLength = &pHeader->ulDataLength;
+#if defined(__GNUC__) && (__GNUC___ > 9 || (__GNUC__ == 9 && __GNUC_MINOR__ >= 1))
+#pragma GCC diagnostic pop
+#endif
     }
 
 cleanup:
@@ -1268,7 +1296,14 @@ RdrSmb2EncodeSetInfoRequest(
 
     if (ppulBufferLen)
     {
+#if defined(__GNUC__) && (__GNUC___ > 9 || (__GNUC__ == 9 && __GNUC_MINOR__ >= 1))
+#pragma GCC diagnostic push
+#pragma GCC diagnostic warning "-Waddress-of-packed-member"
+#endif
         *ppulBufferLen = &pHeader->ulInputBufferLen;
+#if defined(__GNUC__) && (__GNUC___ > 9 || (__GNUC__ == 9 && __GNUC_MINOR__ >= 1))
+#pragma GCC diagnostic pop
+#endif
     }
 
 cleanup:
@@ -1326,7 +1361,14 @@ RdrSmb2EncodeIoctlRequest(
 
     if (ppulInputSize)
     {
+#if defined(__GNUC__) && (__GNUC___ > 9 || (__GNUC__ == 9 && __GNUC_MINOR__ >= 1))
+#pragma GCC diagnostic push
+#pragma GCC diagnostic warning "-Waddress-of-packed-member"
+#endif
         *ppulInputSize = &pHeader->ulInLength;
+#if defined(__GNUC__) && (__GNUC___ > 9 || (__GNUC__ == 9 && __GNUC_MINOR__ >= 1))
+#pragma GCC diagnostic pop
+#endif
     }
 
 cleanup:

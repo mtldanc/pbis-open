@@ -146,7 +146,14 @@ char* _wbc_strdup(const char *str)
 
     /* Copy and NULL terminate */
 
+#if defined(__GNUC__) && (__GNUC___ > 9 || (__GNUC__ == 9 && __GNUC_MINOR__ >= 1))
+#pragma GCC diagnostic push
+#pragma GCC diagnostic warning "-Wstringop-truncation"
+#endif
     strncpy(p, str, len);
+#if defined(__GNUC__) && (__GNUC___ > 9 || (__GNUC__ == 9 && __GNUC_MINOR__ >= 1))
+#pragma GCC diagnostic pop
+#endif
     p[len] = '\0';
 
     return p;

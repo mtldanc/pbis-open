@@ -430,8 +430,15 @@ RdrDecodeFileBothDirectoryInformation(
         status = Advance(ppCursor, pulRemaining, ulFileNameLength);
         BAIL_ON_NT_STATUS(status);
 
+#if defined(__GNUC__) && (__GNUC___ > 9 || (__GNUC__ == 9 && __GNUC_MINOR__ >= 1))
+#pragma GCC diagnostic push
+#pragma GCC diagnostic warning "-Waddress-of-packed-member"
+#endif
         SMB_LTOHWSTR(pBothInfo->ShortName, pBothInfoPacked->ShortName, sizeof(pBothInfo->ShortName) / sizeof(WCHAR) - 1);
         SMB_LTOHWSTR(pBothInfo->FileName, pBothInfoPacked->FileName, ulFileNameLength / sizeof(WCHAR));
+#if defined(__GNUC__) && (__GNUC___ > 9 || (__GNUC__ == 9 && __GNUC_MINOR__ >= 1))
+#pragma GCC diagnostic pop
+#endif
 
         if (SMB_LTOH32(pBothInfoPacked->NextEntryOffset) != 0)
         {

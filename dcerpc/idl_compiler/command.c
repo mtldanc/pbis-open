@@ -1135,7 +1135,14 @@ boolean CMD_parse_args          /* Returns TRUE on success */
      */
     if (cmd_opt[opt_cstub])
     {
+#if defined(__GNUC__) && (__GNUC___ > 9 || (__GNUC__ == 9 && __GNUC_MINOR__ >= 1))
+#pragma GCC diagnostic push
+#pragma GCC diagnostic warning "-Wformat-overflow"
+#endif
         sprintf(filespec, "%s%s", src_filename, cstub_suffix);
+#if defined(__GNUC__) && (__GNUC___ > 9 || (__GNUC__ == 9 && __GNUC_MINOR__ >= 1))
+#pragma GCC diagnostic pop
+#endif
         if (!FILE_form_filespec(cstub_file, out_dir, (char *)NULL, filespec,
                                 l_cstub_file))
         {
@@ -1150,7 +1157,14 @@ boolean CMD_parse_args          /* Returns TRUE on success */
      */
     if (cmd_opt[opt_sstub])
     {
+#if defined(__GNUC__) && (__GNUC___ > 9 || (__GNUC__ == 9 && __GNUC_MINOR__ >= 1))
+#pragma GCC diagnostic push
+#pragma GCC diagnostic warning "-Wformat-overflow"
+#endif
         sprintf(filespec, "%s%s", src_filename, sstub_suffix);
+#if defined(__GNUC__) && (__GNUC___ > 9 || (__GNUC__ == 9 && __GNUC_MINOR__ >= 1))
+#pragma GCC diagnostic pop
+#endif
         if (!FILE_form_filespec(sstub_file, out_dir, (char *)NULL, filespec,
                                 l_sstub_file))
         {
@@ -1163,7 +1177,14 @@ boolean CMD_parse_args          /* Returns TRUE on success */
     /*
      * Process -header option.
      */
+#if defined(__GNUC__) && (__GNUC___ > 9 || (__GNUC__ == 9 && __GNUC_MINOR__ >= 1))
+#pragma GCC diagnostic push
+#pragma GCC diagnostic warning "-Wformat-overflow"
+#endif
     sprintf(filespec, "%s%s", src_filename, header_suffix);     /* =tbl */
+#if defined(__GNUC__) && (__GNUC___ > 9 || (__GNUC__ == 9 && __GNUC_MINOR__ >= 1))
+#pragma GCC diagnostic pop
+#endif
     if (!FILE_form_filespec(header_file, out_dir, (char *)NULL, /* =tbl */
                             filespec, l_header_file))           /* =tbl */
     {
@@ -1177,7 +1198,14 @@ boolean CMD_parse_args          /* Returns TRUE on success */
      */
     if (cmd_opt[opt_caux])
     {
+#if defined(__GNUC__) && (__GNUC___ > 9 || (__GNUC__ == 9 && __GNUC_MINOR__ >= 1))
+#pragma GCC diagnostic push
+#pragma GCC diagnostic warning "-Wformat-overflow"
+#endif
         sprintf(filespec, "%s%s", src_filename, caux_suffix);
+#if defined(__GNUC__) && (__GNUC___ > 9 || (__GNUC__ == 9 && __GNUC_MINOR__ >= 1))
+#pragma GCC diagnostic pop
+#endif
         if (!FILE_form_filespec(caux_file, out_dir, (char *)NULL, filespec,
                                 l_caux_file))
         {
@@ -1192,7 +1220,14 @@ boolean CMD_parse_args          /* Returns TRUE on success */
      */
     if (cmd_opt[opt_saux])
     {
+#if defined(__GNUC__) && (__GNUC___ > 9 || (__GNUC__ == 9 && __GNUC_MINOR__ >= 1))
+#pragma GCC diagnostic push
+#pragma GCC diagnostic warning "-Wformat-overflow"
+#endif
         sprintf(filespec, "%s%s", src_filename, saux_suffix);
+#if defined(__GNUC__) && (__GNUC___ > 9 || (__GNUC__ == 9 && __GNUC_MINOR__ >= 1))
+#pragma GCC diagnostic pop
+#endif
         if (!FILE_form_filespec(saux_file, out_dir, (char *)NULL, filespec,
                                 l_saux_file))
         {
